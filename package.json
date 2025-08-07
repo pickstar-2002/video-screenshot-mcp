@@ -1,6 +1,6 @@
 {
   "name": "@pickstar-2002/video-screenshot-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 MCP 协议的视频截图工具，支持单帧截图和批量截图",
   "main": "dist/index.js",
   "type": "module",
