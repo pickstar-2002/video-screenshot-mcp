@@ -1,6 +1,6 @@
 import ffmpeg from 'fluent-ffmpeg';
 import sharp from 'sharp';
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import * as path from 'path';
 import { promisify } from 'util';
 import { VideoInfo, ScreenshotOptions, BatchScreenshotOptions, ScreenshotResult } from './types.js';

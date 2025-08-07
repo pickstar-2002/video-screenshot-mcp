@@ -7,7 +7,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { VideoProcessor } from './video-processor.js';
 import * as path from 'path';
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 
 export class VideoScreenshotMCPServer {
   private server: Server;
