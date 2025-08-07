@@ -1,44 +1,29 @@
 # 📸 Video Screenshot MCP
 
-[![npm version](https://badge.fury.io/js/@pickstar-2002%2Fvideo-screenshot-mcp.svg)](https://badge.fury.io/js/@pickstar-2002%2Fvideo-screenshot-mcp)
+[![npm version](https://img.shields.io/npm/v/@pickstar-2002/video-screenshot-mcp)](https://www.npmjs.com/package/@pickstar-2002/video-screenshot-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
-[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-blue.svg)](https://modelcontextprotocol.io/)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-orange)](https://modelcontextprotocol.io/)
 
-A powerful **Model Context Protocol (MCP) server** for video screenshot functionality with **high-quality output**. Extract single frames or batch screenshots from videos with original quality preservation.
+一个基于 Model Context Protocol (MCP) 的视频截图服务，支持高质量的视频帧提取和批量截图功能。
 
-## ✨ Features
+## ✨ 特性
 
-- 🎯 **Single Frame Screenshot** - Extract specific frames at any timestamp
-- 📦 **Batch Screenshot** - Generate multiple screenshots at regular intervals
-- 🔍 **Video Information** - Get detailed video metadata (duration, resolution, fps, etc.)
-- ✅ **Video Validation** - Verify video file compatibility
-- 🎨 **Multiple Formats** - Support JPG, PNG, WebP output formats
-- 🏆 **Original Quality** - Default high-quality output (quality=1)
-- ⚡ **High Performance** - Efficient FFmpeg-based processing
-- 🔧 **Flexible Configuration** - Customizable quality, resolution, and naming
+- 🎯 **精确截图**: 支持毫秒级精度的视频帧提取
+- 📊 **批量处理**: 按时间间隔批量截取视频画面
+- 🔍 **视频信息**: 获取视频详细信息（时长、分辨率、帧率等）
+- 🖼️ **多格式支持**: 支持 JPG、PNG、WebP 输出格式
+- ⚙️ **灵活配置**: 可自定义输出质量、尺寸等参数
+- ✅ **文件验证**: 智能验证视频文件有效性
+- 🚀 **高性能**: 基于 FFmpeg 的高效视频处理
 
-## 📋 Requirements
+## 📦 安装
 
-- **Node.js** >= 18.0.0
-- **FFmpeg** installed and accessible in PATH
-- MCP-compatible IDE (Claude Desktop, Cursor, etc.)
+### 作为 MCP 服务使用（推荐）
 
-## 🚀 Installation & Usage
+在您的 IDE 配置文件中添加以下配置：
 
-### Quick Start (Recommended)
-
-Use the `@latest` tag to ensure you always get the most recent version:
-
-```bash
-npx @pickstar-2002/video-screenshot-mcp@latest
-```
-
-### IDE Configuration
-
-Add this server to your MCP settings:
-
-#### Claude Desktop
 ```json
 {
   "mcpServers": {
@@ -50,24 +35,23 @@ Add this server to your MCP settings:
 }
 ```
 
-#### Cursor
-```json
-{
-  "mcp": {
-    "servers": {
-      "video-screenshot": {
-        "command": "npx",
-        "args": ["@pickstar-2002/video-screenshot-mcp@latest"]
-      }
-    }
-  }
-}
+### 本地安装
+
+```bash
+npm install @pickstar-2002/video-screenshot-mcp
 ```
 
-#### Other MCP-Compatible IDEs
+## 🚀 快速开始
+
+### 在 IDE 中配置
+
+#### Cursor / VS Code
+
+在 `settings.json` 中添加：
+
 ```json
 {
-  "servers": {
+  "mcp.servers": {
     "video-screenshot": {
       "command": "npx",
       "args": ["@pickstar-2002/video-screenshot-mcp@latest"]
@@ -76,264 +60,213 @@ Add this server to your MCP settings:
 }
 ```
 
-## 🛠️ API Reference
+#### Claude Desktop
 
-### Available Tools
+在 `claude_desktop_config.json` 中添加：
 
-#### 1. `get_video_info`
-Get comprehensive video information including duration, resolution, fps, and file size.
-
-**Parameters:**
-- `videoPath` (string): Path to the video file
-
-**Returns:**
 ```json
 {
-  "duration": 289.4,
-  "width": 1920,
-  "height": 1080,
-  "fps": 30,
-  "format": "mov,mp4,m4a,3gp,3g2,mj2",
-  "size": 21417944,
-  "formattedDuration": "4:49.400",
-  "filePath": "/path/to/video.mp4"
-}
-```
-
-#### 2. `take_screenshot`
-Extract a single frame at a specific timestamp.
-
-**Parameters:**
-- `videoPath` (string): Path to the video file
-- `timestamp` (number): Time in seconds to extract frame
-- `outputPath` (string): Output file path
-- `format` (string, optional): Output format (`jpg`, `png`, `webp`) - default: `jpg`
-- `quality` (number, optional): Quality 1-100 (JPG only) - default: `1` (highest quality)
-- `width` (number, optional): Output width in pixels
-- `height` (number, optional): Output height in pixels
-
-**Returns:**
-```json
-{
-  "filePath": "/path/to/screenshot.jpg",
-  "timestamp": 10.5,
-  "fileSize": 248035,
-  "width": 1920,
-  "height": 1080
-}
-```
-
-#### 3. `batch_screenshot`
-Generate multiple screenshots at regular intervals.
-
-**Parameters:**
-- `videoPath` (string): Path to the video file
-- `interval` (number): Time interval between screenshots (seconds)
-- `startTime` (number, optional): Start time in seconds - default: `0`
-- `endTime` (number, optional): End time in seconds - default: video duration
-- `maxCount` (number, optional): Maximum number of screenshots
-- `outputDir` (string, optional): Output directory - default: `./screenshots`
-- `prefix` (string, optional): Filename prefix - default: `screenshot`
-- `format` (string, optional): Output format - default: `jpg`
-- `quality` (number, optional): Quality 1-100 - default: `1`
-
-**Returns:**
-```json
-[
-  {
-    "filePath": "/path/to/screenshot_0001_0.00s.jpg",
-    "timestamp": 0,
-    "fileSize": 245678,
-    "width": 1920,
-    "height": 1080
+  "mcpServers": {
+    "video-screenshot": {
+      "command": "npx",
+      "args": ["@pickstar-2002/video-screenshot-mcp@latest"]
+    }
   }
-]
-```
-
-#### 4. `validate_video`
-Check if a video file is valid and supported.
-
-**Parameters:**
-- `videoPath` (string): Path to the video file
-
-**Returns:**
-```json
-{
-  "isValid": true,
-  "filePath": "/path/to/video.mp4",
-  "exists": true
 }
 ```
 
-## 🎨 Usage Examples
+### 基本用法示例
 
-### Single Screenshot
-```javascript
-// Extract frame at 30 seconds with original quality
-await takeScreenshot({
-  videoPath: "/path/to/video.mp4",
-  timestamp: 30,
-  outputPath: "/path/to/frame.jpg"
-});
+配置完成后，您可以通过 AI 助手使用以下功能：
+
+```
+请帮我截取视频 /path/to/video.mp4 在第 30 秒的画面
 ```
 
-### Batch Screenshots
-```javascript
-// Generate screenshots every 60 seconds
-await batchScreenshot({
-  videoPath: "/path/to/video.mp4",
-  interval: 60,
-  outputDir: "/path/to/screenshots",
-  prefix: "frame",
-  maxCount: 10
-});
+```
+请批量截取视频每 10 秒的画面，保存为 PNG 格式
 ```
 
-### Custom Quality & Format
-```javascript
-// High compression JPG
-await takeScreenshot({
-  videoPath: "/path/to/video.mp4",
-  timestamp: 15,
-  outputPath: "/path/to/compressed.jpg",
-  quality: 80
-});
-
-// Lossless PNG
-await takeScreenshot({
-  videoPath: "/path/to/video.mp4",
-  timestamp: 15,
-  outputPath: "/path/to/lossless.png",
-  format: "png"
-});
+```
+请获取这个视频文件的详细信息
 ```
 
-## 🔧 Supported Formats
+## 📖 API 参考
 
-### Input Video Formats
-- MP4, AVI, MOV, MKV, WMV, FLV, WebM, M4V
+### 🔍 get_video_info
 
-### Output Image Formats
-- **JPG** - Configurable quality (1-100), smaller file size
-- **PNG** - Lossless compression, larger file size
-- **WebP** - Modern format, good compression
+获取视频文件的详细信息。
 
-## 🚨 Troubleshooting
+**参数:**
+- `videoPath` (string): 视频文件路径
 
-### Common Issues & Solutions
+**返回:** 包含时长、分辨率、帧率、编码格式等信息的对象
 
-#### 1. "Connection closed" or "Command not found" errors
+### 📸 take_screenshot
 
-**🎯 Solution A (Recommended):** Ensure you're using the `@latest` tag
-```json
-{
-  "command": "npx",
-  "args": ["@pickstar-2002/video-screenshot-mcp@latest"]
-}
-```
+在指定时间点截取视频单帧画面。
 
-**🔄 Solution B (Alternative):** Lock to a specific stable version
-```json
-{
-  "command": "npx",
-  "args": ["@pickstar-2002/video-screenshot-mcp@1.1.0"]
-}
-```
+**参数:**
+- `videoPath` (string): 视频文件路径
+- `timestamp` (number): 截图时间点（秒）
+- `outputPath` (string): 输出文件路径
+- `format` (string, 可选): 输出格式 (jpg/png/webp)，默认 jpg
+- `quality` (number, 可选): 图片质量 (1-100)，默认 90
+- `width` (number, 可选): 输出宽度（像素）
+- `height` (number, 可选): 输出高度（像素）
 
-**🧹 Solution C (Last Resort):** Clear npx cache
+### 📷 batch_screenshot
+
+按固定时间间隔批量截取视频画面。
+
+**参数:**
+- `videoPath` (string): 视频文件路径
+- `interval` (number): 截图时间间隔（秒）
+- `startTime` (number, 可选): 开始时间（秒），默认 0
+- `endTime` (number, 可选): 结束时间（秒），默认视频结束
+- `maxCount` (number, 可选): 最大截图数量
+- `outputDir` (string, 可选): 输出目录，默认 ./screenshots
+- `prefix` (string, 可选): 文件名前缀，默认 screenshot
+- `format` (string, 可选): 输出格式，默认 jpg
+- `quality` (number, 可选): 图片质量，默认 90
+- `width` (number, 可选): 输出宽度（像素）
+- `height` (number, 可选): 输出高度（像素）
+
+### ✅ validate_video
+
+验证视频文件是否有效且支持处理。
+
+**参数:**
+- `videoPath` (string): 视频文件路径
+
+**返回:** 验证结果和错误信息（如有）
+
+## 🎯 使用场景
+
+- 📝 **内容创作**: 为视频制作缩略图和预览图
+- 🎬 **视频分析**: 提取关键帧进行内容分析
+- 📊 **质量检测**: 批量检查视频质量和内容
+- 🔍 **素材管理**: 为视频库生成预览图
+- 🎨 **设计工作**: 提取视频帧用于设计素材
+
+## 🛠️ 疑难解答
+
+### ❌ 常见问题
+
+#### 问题 1: `Connection closed` 错误
+
+**症状**: 在使用 MCP 服务时出现连接关闭错误
+
+**解决方案**（按推荐顺序）:
+
+1. **🎯 首选方案**: 确认使用了 `@latest` 标签
+   ```json
+   {
+     "command": "npx",
+     "args": ["@pickstar-2002/video-screenshot-mcp@latest"]
+   }
+   ```
+
+2. **🔄 备用方案**: 锁定到特定稳定版本
+   ```json
+   {
+     "command": "npx",
+     "args": ["@pickstar-2002/video-screenshot-mcp@1.1.1"]
+   }
+   ```
+
+3. **🧹 终极方案**: 清理 npx 缓存
+   ```bash
+   # 清理 npx 缓存
+   npx clear-npx-cache
+   
+   # 或者手动删除缓存目录
+   # Windows: %USERPROFILE%\.npm\_npx
+   # macOS/Linux: ~/.npm/_npx
+   ```
+
+#### 问题 2: FFmpeg 未找到
+
+**症状**: 提示 FFmpeg 不可用或未安装
+
+**解决方案**:
 ```bash
-# Clear npx cache
-npx clear-npx-cache
-
-# Or manually clear
-rm -rf ~/.npm/_npx
-# Windows: rmdir /s %APPDATA%\npm-cache\_npx
-```
-
-#### 2. "FFmpeg not found" error
-
-**Solution:** Install FFmpeg and ensure it's in your PATH
-```bash
-# macOS (Homebrew)
-brew install ffmpeg
-
-# Windows (Chocolatey)
+# Windows (使用 Chocolatey)
 choco install ffmpeg
+
+# macOS (使用 Homebrew)
+brew install ffmpeg
 
 # Ubuntu/Debian
 sudo apt update && sudo apt install ffmpeg
 
-# Verify installation
-ffmpeg -version
+# CentOS/RHEL
+sudo yum install ffmpeg
 ```
 
-#### 3. "Invalid video file" error
+#### 问题 3: 权限错误
 
-**Possible causes:**
-- File doesn't exist or path is incorrect
-- Unsupported video format
-- Corrupted video file
+**症状**: 无法读取视频文件或写入截图
 
-**Solution:**
-```javascript
-// First validate the video
-const validation = await validateVideo({
-  videoPath: "/path/to/video.mp4"
-});
-console.log(validation); // Check if file exists and is valid
+**解决方案**:
+- 确保视频文件路径正确且可访问
+- 检查输出目录的写入权限
+- 在 Windows 上可能需要以管理员身份运行
+
+#### 问题 4: 视频格式不支持
+
+**症状**: 某些视频文件无法处理
+
+**解决方案**:
+- 使用 `validate_video` 工具检查文件有效性
+- 支持的格式: MP4, AVI, MOV, MKV, WebM, FLV 等主流格式
+- 对于特殊格式，建议先转换为 MP4
+
+### 📋 调试技巧
+
+1. **启用详细日志**: 设置环境变量 `DEBUG=video-screenshot:*`
+2. **检查文件路径**: 使用绝对路径避免相对路径问题
+3. **测试小文件**: 先用小视频文件测试功能
+4. **查看错误信息**: 仔细阅读错误消息中的具体提示
+
+## 🔧 系统要求
+
+- **Node.js**: >= 18.0.0
+- **FFmpeg**: 需要系统安装 FFmpeg
+- **操作系统**: Windows, macOS, Linux
+- **内存**: 建议至少 512MB 可用内存
+
+## 📄 许可证
+
+本项目采用 [MIT 许可证](LICENSE)。
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+### 开发环境设置
+
+```bash
+# 克隆仓库
+git clone https://github.com/pickstar-2002/video-screenshot-mcp.git
+cd video-screenshot-mcp
+
+# 安装依赖
+npm install
+
+# 构建项目
+npm run build
+
+# 运行测试
+npm test
 ```
 
-#### 4. Poor screenshot quality
+## 📞 联系方式
 
-**Solution:** The default quality is now set to `1` (highest quality). If you're still experiencing quality issues:
-```javascript
-// Explicitly set highest quality
-await takeScreenshot({
-  videoPath: "/path/to/video.mp4",
-  timestamp: 30,
-  outputPath: "/path/to/high_quality.jpg",
-  quality: 1  // Highest quality
-});
-
-// Or use PNG for lossless output
-await takeScreenshot({
-  videoPath: "/path/to/video.mp4",
-  timestamp: 30,
-  outputPath: "/path/to/lossless.png",
-  format: "png"
-});
-```
-
-#### 5. IDE not recognizing the MCP server
-
-**Solution:**
-1. Restart your IDE after adding the MCP configuration
-2. Check the IDE's MCP logs for error messages
-3. Verify the configuration syntax is correct
-4. Ensure Node.js >= 18.0.0 is installed
-
-## 📝 Quality Settings Guide
-
-| Quality | File Size | Use Case |
-|---------|-----------|----------|
-| `1` | ~250KB | **Default** - Original quality, recommended |
-| `5` | ~150KB | High quality, balanced |
-| `20` | ~80KB | Good quality, smaller files |
-| `50` | ~40KB | Medium quality |
-| `90` | ~20KB | Low quality, very small files |
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
+如有问题或建议，欢迎联系：
 
 **微信**: pickstar_loveXX
 
 ---
 
-Made with ❤️ by [pickstar-2002](https://github.com/pickstar-2002)
+⭐ 如果这个项目对您有帮助，请给个 Star 支持一下！
